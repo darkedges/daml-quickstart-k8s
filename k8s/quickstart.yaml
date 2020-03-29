@@ -51,8 +51,25 @@ spec:
   selector:
     app: quickstart-sandbox
   ports:
-    - name: http
+    - name: ledger
       port: 6865
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quickstart-json-api
+  namespace: daml
+  labels:
+    app: quickstart-json-api
+    service: quickstart-json-api
+spec:
+  type: ClusterIP
+  selector:
+    app: quickstart-json-api
+  ports:
+    - name: http
+      port: 7575
       protocol: TCP
 ---
 apiVersion: v1
@@ -100,6 +117,34 @@ spec:
   - route:
     - destination:
         host: quickstart-navigator
+    corsPolicy:
+      allowOrigin:
+      - https://quickstart.daml.darkedges.com
+      allowMethods:
+      - POST
+      - GET
+      - OPTIONS
+      allowCredentials: true
+      allowHeaders:
+      - authorization
+      - content-type
+      maxAge: "24h"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: quickstart-api-virtualservice
+  namespace: daml
+spec:
+  gateways:
+  - istio-system/ingressgateway
+  - mesh
+  hosts:
+  - quickstart-api.daml.darkedges.com
+  http:
+  - route:
+    - destination:
+        host: quickstart-json-api
     corsPolicy:
       allowOrigin:
       - https://quickstart.daml.darkedges.com
@@ -186,6 +231,47 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 4000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quickstart-json-api
+  namespace: daml
+spec:
+  selector:
+    matchLabels:
+      app: quickstart-json-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: quickstart-json-api
+    spec:
+      serviceAccountName: damlserviceaccount
+      initContainers:
+      - name: wait-for-keystore
+        image: opsfleet/depends-on
+        args:
+          - "-service=quickstart-sandbox"
+      containers:
+      - name: quickstart
+        image: darkedges/daml-quickstart:0.0.1
+        imagePullPolicy: IfNotPresent
+        command:
+            - /usr/bin/docker-entrypoint.sh
+            - jsonapi
+        ports:
+        - containerPort: 7575
+        readinessProbe:
+          tcpSocket:
+            port: 7575
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 7575
           initialDelaySeconds: 10
           periodSeconds: 10
 

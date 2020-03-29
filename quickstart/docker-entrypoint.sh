@@ -7,7 +7,13 @@ echo "Command is $CMD"
 sandbox() {
     MY_POD_IP=$(hostname -i)
     cd quickstart
-    daml sandbox -a $MY_POD_IP .daml/dist/quickstart-0.0.1.dar
+    daml sandbox --address $MY_POD_IP --wall-clock-time --ledgerid MyLedger .daml/dist/quickstart-0.0.1.dar
+}
+
+jsonapi() {
+    MY_POD_IP=$(hostname -i)
+    cd quickstart
+    daml json-api --address $MY_POD_IP --ledger-host quickstart-sandbox --ledger-port 6865 --http-port 7575
 }
 
 navigator() {
@@ -19,6 +25,9 @@ navigator() {
 case "$CMD" in
 sandbox) 
     sandbox
+    ;;
+jsonapi)
+    jsonapi
     ;;
 navigator) 
     navigator
