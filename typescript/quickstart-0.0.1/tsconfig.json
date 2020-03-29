@@ -1,0 +1,30 @@
+{
+    "include": [
+        "src/**/*.ts"
+    ],
+    "compilerOptions": {
+        "noFallthroughCasesInSwitch": true,
+        "declaration": true,
+        "strict": true,
+        "outDir": "lib",
+        "noImplicitReturns": true,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noUnusedLocals": false,
+        "target": "es5",
+        "sourceMap": true,
+        "baseUrl": "./",
+        "paths": {
+            "@ts/40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7": [
+                "../40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7/src"
+            ],
+            "@ts/d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662": [
+                "../d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662/src"
+            ]
+        }
+    }
+}
