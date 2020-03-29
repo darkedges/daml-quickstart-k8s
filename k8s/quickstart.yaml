@@ -163,6 +163,12 @@ spec:
       labels:
         app: quickstart-navigator
     spec:
+      serviceAccountName: damlserviceaccount
+      initContainers:
+      - name: wait-for-keystore
+        image: opsfleet/depends-on
+        args:
+          - "-service=quickstart-sandbox"
       containers:
       - name: quickstart
         image: darkedges/daml-quickstart:0.0.1
