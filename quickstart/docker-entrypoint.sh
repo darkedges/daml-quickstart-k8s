@@ -7,13 +7,13 @@ echo "Command is $CMD"
 sandbox() {
     MY_POD_IP=$(hostname -i)
     cd quickstart
-    daml sandbox --address $MY_POD_IP --wall-clock-time --ledgerid MyLedger .daml/dist/quickstart-0.0.1.dar
+    daml sandbox --address $MY_POD_IP --wall-clock-time --ledgerid MyLedger --auth-jwt-hs256-unsafe=secret .daml/dist/quickstart-0.0.1.dar
 }
 
 jsonapi() {
     MY_POD_IP=$(hostname -i)
     cd quickstart
-    daml json-api --address $MY_POD_IP --ledger-host quickstart-sandbox --ledger-port 6865 --http-port 7575
+    daml json-api --address $MY_POD_IP --ledger-host quickstart-sandbox --ledger-port 6865 --http-port 7575 --access-token-file /home/daml/accessToken
 }
 
 navigator() {

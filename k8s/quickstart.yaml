@@ -202,7 +202,7 @@ spec:
   selector:
     matchLabels:
       app: quickstart-navigator
-  replicas: 1
+  replicas: 0
   template:
     metadata:
       labels:
