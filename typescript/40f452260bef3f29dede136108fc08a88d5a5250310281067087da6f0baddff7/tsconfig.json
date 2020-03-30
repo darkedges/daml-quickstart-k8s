@@ -6,7 +6,7 @@
         "noFallthroughCasesInSwitch": true,
         "declaration": true,
         "strict": true,
-        "outDir": "lib",
+        "outDir": "dist",
         "noImplicitReturns": true,
         "lib": [
             "dom",
