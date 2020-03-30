@@ -124,12 +124,12 @@ export type Iou = {
   observers: daml.Party[];
 }
 export const Iou: daml.Template<Iou, undefined, 'f7592b50015725110188fe00bea8373fdcdceaeea90a1664682df422a9853b6e:Iou:Iou'> & {
-  Iou_Split: daml.Choice<Iou, Iou_Split,Tuple2<daml.ContractId<Iou>, daml.ContractId<Iou>>, undefined>;
+  Iou_Split: daml.Choice<Iou, Iou_Split, Tuple2<daml.ContractId<Iou>, daml.ContractId<Iou>>, undefined>;
   Iou_Merge: daml.Choice<Iou, Iou_Merge, daml.ContractId<Iou>, undefined>;
   Iou_Transfer: daml.Choice<Iou, Iou_Transfer, daml.ContractId<IouTransfer>, undefined>;
   Iou_AddObserver: daml.Choice<Iou, Iou_AddObserver, daml.ContractId<Iou>, undefined>;
   Iou_RemoveObserver: daml.Choice<Iou, Iou_RemoveObserver, daml.ContractId<Iou>, undefined>;
-  Archive: daml.Choice<Iou,Archive, {}, undefined>;
+  Archive: daml.Choice<Iou, Archive, {}, undefined>;
 } = {
   templateId: 'f7592b50015725110188fe00bea8373fdcdceaeea90a1664682df422a9853b6e:Iou:Iou',
   keyDecoder: () => jtv.constant(undefined),

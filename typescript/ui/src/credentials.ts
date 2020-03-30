@@ -1,7 +1,7 @@
 import { encode } from 'jwt-simple';
 import { ledgerId } from './config';
 
-export const APPLICATION_ID: string = 'create-daml-app';
+export const APPLICATION_ID: string = 'foobar';
 
 export const SECRET_KEY: string = 'secret';
 
