@@ -9,6 +9,11 @@ sandbox() {
     daml sandbox --address 0.0.0.0 --wall-clock-time --ledgerid MyLedger --auth-jwt-hs256-unsafe=secret .daml/dist/quickstart-0.0.1.dar
 }
 
+script() {
+    cd quickstart
+    daml script --dar .daml/dist/quickstart-0.0.1.dar --script-name Setup:initialize --ledger-host quickstart-sandbox --ledger-port 6865 --wall-clock-time --access-token-file /home/daml/accessToken
+}
+
 jsonapi() {
     MY_POD_IP=$(hostname -i)
     cd quickstart
@@ -17,13 +22,15 @@ jsonapi() {
 
 navigator() {
     cd quickstart
-    daml script --dar .daml/dist/quickstart-0.0.1.dar --script-name Setup:initialize --ledger-host quickstart-sandbox --ledger-port 6865 --wall-clock-time --access-token-file /home/daml/accessToken
     daml navigator server --access-token-file /home/daml/accessToken quickstart-sandbox 6865
 }
 
 case "$CMD" in
 sandbox) 
     sandbox
+    ;;
+script)
+    script
     ;;
 jsonapi)
     jsonapi

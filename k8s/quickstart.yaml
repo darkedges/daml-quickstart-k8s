@@ -213,7 +213,7 @@ spec:
       - name: wait-for-keystore
         image: opsfleet/depends-on
         args:
-          - "-service=quickstart-sandbox"
+          - "-job=quickstart-script"
       containers:
       - name: quickstart
         image: darkedges/daml-quickstart:0.0.1
@@ -254,7 +254,7 @@ spec:
       - name: wait-for-keystore
         image: opsfleet/depends-on
         args:
-          - "-service=quickstart-sandbox"
+          - "-job=quickstart-script"
       containers:
       - name: quickstart
         image: darkedges/daml-quickstart:0.0.1
@@ -274,4 +274,27 @@ spec:
             port: 7575
           initialDelaySeconds: 10
           periodSeconds: 10
-
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: quickstart-script
+  namespace: daml
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-sandbox
+        image: opsfleet/depends-on
+        args:
+          - "-service=quickstart-sandbox"
+      containers:
+      - name: quickstart-script
+        image: darkedges/daml-quickstart:0.0.1
+        imagePullPolicy: IfNotPresent
+        command:
+            - /usr/bin/docker-entrypoint.sh
+            - script
+      restartPolicy: Never
+      serviceAccountName: damlserviceaccount
+  backoffLimit: 4
