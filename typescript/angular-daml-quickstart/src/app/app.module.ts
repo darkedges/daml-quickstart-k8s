@@ -29,7 +29,9 @@ import { RouterModule } from '@angular/router';
       oauth2: {
         clientId: environment.OAUTH2CLIENTID,
         redirectURI: environment.OAUTH2REDIRECTURI,
-        issuer: environment.OAUTH2ISSUER
+        issuer: environment.OAUTH2ISSUER,
+        responseTypes: environment.OAUTH2RESPONSE_TYPES,
+        scopes:  environment.OAUTH2SCOPES
       }
     }),
     CoreModule

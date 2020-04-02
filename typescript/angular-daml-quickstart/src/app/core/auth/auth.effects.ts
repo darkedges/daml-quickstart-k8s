@@ -27,7 +27,7 @@ export class AuthEffects {
   logout$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActionTypes.LOGOUT),
     tap(() => {
-      this.authService.logout();
+      // this.authService.logout();
       this.router.navigate(['']);
     })
   ), { dispatch: false });
