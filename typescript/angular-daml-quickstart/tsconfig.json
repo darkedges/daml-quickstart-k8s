@@ -16,10 +16,11 @@
       "dom"
     ],
     "paths": {
-      "@darkedges/*": [
-        "src/darkedges/*"
+      "@darkedges/daml-angular": [
+        "dist/darkedges/daml-angular/darkedges-daml-angular",
+        "dist/darkedges/daml-angular"
       ]
-    },
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -66,7 +67,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-daml-quickstart:build"
+            "browserTarget": "angular-daml-quickstart:build",
+            "ssl": true,
+            "sslKey": "ssl/server.key",
+            "sslCert": "ssl/server.crt",
+            "port": 443,
+            "publicHost": "app.daml.darkedges.com",
           },
           "configurations": {
             "production": {
@@ -92,6 +98,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -120,6 +127,46 @@
             "production": {
               "devServerTarget": "angular-daml-quickstart:serve:production"
             }
+          }
+        }
+      }
+    },
+    "@darkedges/daml-angular": {
+      "projectType": "library",
+      "root": "projects/darkedges/daml-angular",
+      "sourceRoot": "projects/darkedges/daml-angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/darkedges/daml-angular/tsconfig.lib.json",
+            "project": "projects/darkedges/daml-angular/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/darkedges/daml-angular/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/darkedges/daml-angular/src/test.ts",
+            "tsConfig": "projects/darkedges/daml-angular/tsconfig.spec.json",
+            "karmaConfig": "projects/darkedges/daml-angular/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/darkedges/daml-angular/tsconfig.lib.json",
+              "projects/darkedges/daml-angular/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
