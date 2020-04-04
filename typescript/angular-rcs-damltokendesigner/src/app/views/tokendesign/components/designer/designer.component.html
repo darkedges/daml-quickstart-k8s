@@ -1,0 +1,112 @@
+<div class="content" fxLayout="row" fxLayout.xs="column" fxLayoutGap="16px">
+    <mat-card fxFlex="1 1 calc(50%-8px)">
+        <mat-card-header>
+            <mat-card-title>DAML Token Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form autocomplete="off" novalidate [formGroup]="tokenFormGroup">
+                <div formGroupName="https://daml.com/ledger-api">
+                    <mat-form-field>
+                        <mat-label>ledgerId</mat-label>
+                        <input matInput formControlName="ledgerId" name="ledgerId" required>
+                        <mat-error *ngIf="hasError('https://daml.com/ledger-api','ledgerId', 'required')">
+                            ledgerId is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>participantId</mat-label>
+                        <input matInput formControlName="participantId" name="participantId">
+                        <mat-error *ngIf="hasError('https://daml.com/ledger-api','participantId', 'required')">
+                            participantId is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>applicationId</mat-label>
+                        <input matInput formControlName="applicationId" name="applicationId">
+                        <mat-error *ngIf="hasError('https://daml.com/ledger-api','applicationId', 'required')">
+                            applicationId is required</mat-error>
+                    </mat-form-field>
+                    <mat-checkbox formControlName="admin" name="admin">admin</mat-checkbox>
+                    <mat-form-field>
+                        <mat-chip-list #actAsChipList formControlName="actAs">
+                            <mat-chip
+                                *ngFor="let cid of tokenFormGroup.get(['https://daml.com/ledger-api','actAs']).value"
+                                [selectable]="selectable" [removable]="removable"
+                                (removed)="remove('https://daml.com/ledger-api','actAs',cid)">
+                                {{ cid }}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="actAs" [matChipInputFor]="actAsChipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="add('https://daml.com/ledger-api','actAs',$event)" id="actAs">
+                            <mat-error *ngIf="hasError('https://daml.com/ledger-api','actAs', 'required')">actAs is
+                                required
+                            </mat-error>
+                        </mat-chip-list>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-chip-list #readAsChipList for mControlName="readAs">
+                            <mat-chip
+                                *ngFor="let cid of tokenFormGroup.get(['https://daml.com/ledger-api','readAs']).value"
+                                [selectable]="selectable" [removable]="removable"
+                                (removed)="remove('https://daml.com/ledger-api','readAs',cid)">
+                                {{ cid }}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="readAs" [matChipInputFor]="readAsChipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="add('https://daml.com/ledger-api','readAs',$event)" id="readAs">
+                            <mat-error *ngIf="hasError('https://daml.com/ledger-api','readAs', 'required')">readAs is
+                                required
+                            </mat-error>
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+                <form autocomplete="off" novalidate [formGroup]="datetimeFormGroup">
+                    <mat-form-field>
+                        <input matInput [ngxMatDatetimePicker]="picker" placeholder="exp" [min]="minDate"
+                            formControlName="datetime">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker [showSeconds]="true">
+                        </ngx-mat-datetime-picker>
+                        <mat-error *ngIf="hasDateTimeError('','datetime', 'required')">exp is
+                            required
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </form>
+        </mat-card-content>
+        <!-- <mat-card-actions fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" [disabled]="!(tokenFormGroup.valid && datetimeFormGroup.valid)"
+                (click)="create()">Create Token</button>
+        </mat-card-actions> -->
+    </mat-card>
+    <mat-card fxFlex="1 1 calc(50%-8px)">
+        <mat-card-header>
+            <mat-card-title>DAML Token</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="docs-example-source-wrapper">
+                <div class="docs-example-source-copy">
+                    <button mat-icon-button type="button" title="Download JWT" aria-label="Download JWT"
+                        (click)="downloadJWT()" *ngIf="JWT">
+                        <mat-icon>cloud_download</mat-icon>
+                    </button>
+                    <button mat-icon-button type="button" title="Copy JWT" aria-label="Copy JWT to clipboard"
+                        (click)="copyJWT()" *ngIf="JWT">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                </div>
+                <h3>JWT</h3>
+                <app-jwthighlight [jwt]="JWT"></app-jwthighlight>
+            </div>
+            <div fxLayoutAlign="center center" class="buttonPadding">
+                <button mat-raised-button color="primary"
+                    [disabled]="!(tokenFormGroup.valid && datetimeFormGroup.valid)" (click)="create()">Create
+                    Token</button>
+            </div>
+            <h3>JSON</h3>
+            <div class="jwt-payload">
+                {{tokenFormGroup.value | json}}
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

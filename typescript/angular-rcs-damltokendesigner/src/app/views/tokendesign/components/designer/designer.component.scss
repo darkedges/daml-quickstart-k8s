@@ -1,0 +1,40 @@
+ngx-timepicker-field {
+    font: 14px Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.jwt-payload {
+    color: #d63aff;
+    font-family: monospace;
+    white-space: pre;
+    overflow: auto;
+}
+
+.content {
+    padding: 16px
+}
+
+.docs-example-source-copy {
+    position: absolute;
+    // top: 38px;
+    display: none;
+    right: 8px;
+
+    [dir='rtl'] & {
+      right: auto;
+      left: 8px;
+    }
+}
+
+.docs-example-source-wrapper:hover {
+    .docs-example-source-copy {
+        display: inline-block;
+    }
+}
+
+.buttonPadding {
+    padding: 16px
+}
